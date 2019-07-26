@@ -6,7 +6,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: openjdk-11-lein-2.9.1
+      - image: clojure:openjdk-11-lein-2.9.1
     working_directory: ~/repo
     environment:
       LEIN_ROOT: "true"
