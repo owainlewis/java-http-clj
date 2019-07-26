@@ -1,7 +1,6 @@
 (ns java-http-clj.client
   (:refer-clojure :exclude [get])
   (:require [clojure.string :as str]
-            [cheshire.core :as json]
             [java-http-clj.util :as util])
   (:import [java.net URI]
            [java.net.http
