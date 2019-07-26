@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       - image: circleci/clojure:lein-2.9.1
-    working_directory: ~/
+    working_directory: ~/repo
     environment:
       LEIN_ROOT: "true"
       JVM_OPTS: -Xmx3200m
