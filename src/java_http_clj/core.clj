@@ -188,13 +188,11 @@
      (~['uri 'req-map 'opts 'callback]
       (send-request-async (merge ~'req-map ~{:uri 'uri :method method}) ~'opts ~'callback))))
 
-(defmacro ^:private def-all-shorthands []
+(defmacro ^:private def-all-methods []
   `(do ~@(map define-method [:get :head :post :put :delete])))
 
-(defmacro ^:private def-all-async-shorthands []
+(defmacro ^:private def-all-async-methods []
   `(do ~@(map define-method-async [:get :head :post :put :delete])))
 
-;; Create dynamic methods
-
-(def-all-shorthands)
-(def-all-async-shorthands)
+(def-all-methods)
+(def-all-async-methods)

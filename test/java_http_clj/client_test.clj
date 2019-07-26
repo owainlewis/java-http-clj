@@ -1,17 +1,13 @@
-(ns java-http-clj.core-test
+(ns java-http-clj.client-test
   (:refer-clojure :exclude [get])
   (:require [clojure.test :refer :all]
             [java-http-clj.core :refer :all])
   (:import [java.net.http
             HttpClient$Redirect
-            HttpClient$Version
-            HttpHeaders
-            HttpRequest$BodyPublisher
-            HttpRequest$BodyPublishers
-            HttpResponse]
+            HttpClient$Version]
            [java.time Duration])
   (:require [clojure.test :refer :all]
-            [java-http-clj.core :refer :all]))
+            [java-http-clj.client :refer :all]))
 
 (deftest build-client-test
   (let [opts {:connect-timeout 2000
