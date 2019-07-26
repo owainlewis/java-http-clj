@@ -31,7 +31,7 @@ You can add query parameters to your request using the following form:
 ### Async Requests
 
 There are async implementations of all core HTTP methods.
-When using the Async client, you will can provide an optional callback and an optional error handler.
+When using the Async client, you can provide an optional callback and an optional error handler.
 
 ```clojure
 ;; With callback
