@@ -2,9 +2,12 @@
 
 A Clojure HTTP client based on the Java 11 native HTTP client. This is a drop in replacement for clojure-http and http-kit.
 
-## Usage
+## Intro
 
-This library supports both sync and async HTTP request.
+The HTTP Client was added in Java 11. It can be used to request HTTP resources over the network. It supports HTTP/1.1 and HTTP/2, both synchronous and asynchronous programming models, handles request and response bodies as reactive-streams, and follows the familiar builder pattern.
+This library exposes this Java client via Clojure and supports both sync and async requests. It can be used as a light weight, drop-in replacement for http-kit and clojure-http.
+
+**This library requires Java 11+**
 
 ### Making Requests
 
