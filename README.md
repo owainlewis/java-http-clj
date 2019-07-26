@@ -4,7 +4,7 @@ A Clojure HTTP client based on the Java 11 native HTTP client. This is a drop in
 
 ## Getting started
 
-[com.owainlewis/java-http-clj "0.1.0"]
+[![Clojars Project](https://img.shields.io/clojars/v/com.owainlewis/java-http-clj.svg)](https://clojars.org/com.owainlewis/java-http-clj)
 
 [![CircleCI](https://circleci.com/gh/owainlewis/java-http-clj.svg?style=svg)](https://circleci.com/gh/owainlewis/java-http-clj)
 
