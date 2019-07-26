@@ -17,6 +17,8 @@
            [java.util.function Function Supplier]
            [javax.net.ssl SSLContext SSLParameters]))
 
+(def ^:private http-methods [:get :head :post :put :delete])
+
 (defn- convert-body-publisher [body]
   (letfn [(input-stream-supplier [s]
             (reify Supplier
@@ -189,10 +191,10 @@
       (send-request-async (merge ~'req-map ~{:uri 'uri :method method}) ~'opts ~'callback))))
 
 (defmacro ^:private def-all-methods []
-  `(do ~@(map define-method [:get :head :post :put :delete])))
+  `(do ~@(map define-method http-methods)))
 
 (defmacro ^:private def-all-async-methods []
-  `(do ~@(map define-method-async [:get :head :post :put :delete])))
+  `(do ~@(map define-method-async http-methods)))
 
 (def-all-methods)
 (def-all-async-methods)
