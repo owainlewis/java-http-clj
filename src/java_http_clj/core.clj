@@ -86,7 +86,11 @@
    :body (.body resp)
    :version (-> resp .version version-string->version-keyword)
    :headers (into {}
-                  (map (fn [[k v]] [k (if (> (count v) 1) (vec v) (first v))]))
+                  (map 
+                    (fn [[k v]] 
+                      [k (if (> (count v) 1) 
+                           (vec v) 
+                           (first v))]))
                   (.map (.headers resp)))}))
 
 (defmacro fn->java-function
@@ -99,7 +103,7 @@
 (defn- convert-request
   [req]
   (cond
-    (map? req) (build-request req)
+    (map? req)    (build-request req)
     (string? req) (build-request {:uri req})
     (instance? HttpRequest req) req))
 
@@ -169,11 +173,14 @@
   `(defn ~(symbol (name method))
      ~(method-docstring method)
      (~['uri]
-       (send-request ~{:uri 'uri :method method} {}))
+       (send-request 
+         ~{:uri 'uri :method method} {}))
      (~['uri 'req-map]
-       (send-request (merge ~'req-map ~{:uri 'uri :method method}) {}))
+       (send-request 
+         (merge ~'req-map ~{:uri 'uri :method method}) {}))
      (~['uri 'req-map 'opts]
-       (send-request (merge ~'req-map ~{:uri 'uri :method method}) ~'opts))))
+       (send-request 
+         (merge ~'req-map ~{:uri 'uri :method method}) ~'opts))))
 
 (defn- method-async-docstring [method]
   (str "Sends an asynchronous " (str/upper-case (name method)) " request to `uri`."))
@@ -184,11 +191,14 @@
   `(defn ~(symbol (str "async-" (name method)))
      ~(method-async-docstring  method)
      (~['uri 'callback]
-       (send-request-async ~{:uri 'uri :method method} {} ~'callback))
+       (send-request-async 
+         ~{:uri 'uri :method method} {} ~'callback))
      (~['uri 'req-map 'callback]
-       (send-request-async (merge ~'req-map ~{:uri 'uri :method method}) {} ~'callback))
+       (send-request-async 
+         (merge ~'req-map ~{:uri 'uri :method method}) {} ~'callback))
      (~['uri 'req-map 'opts 'callback]
-      (send-request-async (merge ~'req-map ~{:uri 'uri :method method}) ~'opts ~'callback))))
+      (send-request-async 
+        (merge ~'req-map ~{:uri 'uri :method method}) ~'opts ~'callback))))
 
 (defmacro ^:private def-all-methods []
   `(do ~@(map define-method http-methods)))
