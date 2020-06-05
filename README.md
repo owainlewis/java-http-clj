@@ -16,6 +16,13 @@ This library exposes this Java client via Clojure and supports both sync and asy
 
 **This library requires Java 11+**
 
+You will need to import this library first
+
+```clojure
+(ns myns
+  (:require [java-http-clj.core :as http]))
+```
+
 ### Making Requests
 
 ### GET
@@ -35,7 +42,7 @@ This library exposes this Java client via Clojure and supports both sync and asy
 You can add query parameters to your request using the following form:
 
 ```clojure
-(get "https://postman-echo.com/get" {:query-parameters {:foo "bar"}})
+(http/get "https://postman-echo.com/get" {:query-parameters {:foo "bar"}})
 ```
 
 ### Async Requests
@@ -45,17 +52,17 @@ When using the Async client, you can provide an optional callback and an optiona
 
 ```clojure
 ;; With callback
-(async-get "https://github.com"
+(http/async-get "https://github.com"
   (fn [r] (println (:status r))))
 
 ;; With callback and error handler
-(async-get "https://github.com"
+(http/async-get "https://github.com"
   (fn [r] (println (:status r)))
   (fn [e] (println e)))
 ```
 
 ## License
 
-Copyright © 2019 Owain Lewis
+Copyright © 2020 Owain Lewis
 
 Released under the MIT License: http://www.opensource.org/licenses/mit-license.php
