@@ -4,10 +4,10 @@
             [java-http-clj.util :as util])
   (:import [java.net URI]
            [java.net.http
-              HttpClient
-              HttpClient$Builder
-              HttpClient$Redirect
-              HttpClient$Version]
+            HttpClient
+            HttpClient$Builder
+            HttpClient$Redirect
+            HttpClient$Version]
            [java.time Duration]))
 
 (defn client-builder
@@ -19,25 +19,25 @@
                :always HttpClient$Redirect/ALWAYS
                :never HttpClient$Redirect/NEVER
                :normal HttpClient$Redirect/NORMAL))]
-   (let [{:keys [connect-timeout
-                 cookie-handler
-                 executor
-                 follow-redirects
-                 priority
-                 proxy
-                 ssl-context
-                 ssl-parameters
-                 version]} opts]
-     (cond-> (HttpClient/newBuilder)
-       connect-timeout  (.connectTimeout (util/convert-timeout connect-timeout))
-       cookie-handler   (.cookieHandler cookie-handler)
-       executor         (.executor executor)
-       follow-redirects (.followRedirects (convert-redirect follow-redirects))
-       priority         (.priority priority)
-       proxy            (.proxy proxy)
-       ssl-context      (.sslContext ssl-context)
-       ssl-parameters   (.sslParameters ssl-parameters)
-       version          (.version (util/convert-version version)))))))
+     (let [{:keys [connect-timeout
+                   cookie-handler
+                   executor
+                   follow-redirects
+                   priority
+                   proxy
+                   ssl-context
+                   ssl-parameters
+                   version]} opts]
+       (cond-> (HttpClient/newBuilder)
+         connect-timeout  (.connectTimeout (util/convert-timeout connect-timeout))
+         cookie-handler   (.cookieHandler cookie-handler)
+         executor         (.executor executor)
+         follow-redirects (.followRedirects (convert-redirect follow-redirects))
+         priority         (.priority priority)
+         proxy            (.proxy proxy)
+         ssl-context      (.sslContext ssl-context)
+         ssl-parameters   (.sslParameters ssl-parameters)
+         version          (.version (util/convert-version version)))))))
 
 (defn build-client
   ([] (.build (client-builder)))
