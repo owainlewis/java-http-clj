@@ -8,6 +8,12 @@ A Clojure HTTP client based on the Java 11 native HTTP client. This is a drop in
 
 [![CircleCI](https://circleci.com/gh/owainlewis/java-http-clj.svg?style=svg)](https://circleci.com/gh/owainlewis/java-http-clj)
 
+## Testing
+
+``` clojure
+lein with-profiles dev test
+```
+
 ## Intro
 
 The [HTTP Client](https://openjdk.java.net/groups/net/httpclient/intro.html) was added in Java 11. It can be used to request HTTP resources over the network. It supports HTTP/1.1 and HTTP/2, both synchronous and asynchronous programming models, handles request and response bodies as reactive-streams, and follows the familiar builder pattern.
@@ -35,6 +41,15 @@ You will need to import this library first
 (http/get "https://www.google.com"
   {:headers {"Accept" "application/json" "Accept-Encoding" ["gzip" "deflate"]}
    :timeout 2000})
+```
+
+
+### POST
+
+```clojure
+(http/post "https://postman-echo.com/post" 
+  {:headers { "Content-Type" "application/json"}
+   :body "Hello, World!"})
 ```
 
 ### Query Parameters
