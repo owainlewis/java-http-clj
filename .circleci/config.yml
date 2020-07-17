@@ -8,6 +8,8 @@ jobs:
       LEIN_ROOT: "true"
       JVM_OPTS: -Xmx3200m
     steps:
+      - attach_workspace:
+          at: /home/circleci
       - checkout
       # Download and cache dependencies
       - restore_cache:
