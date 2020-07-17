@@ -1,13 +1,9 @@
-# Clojure CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-clojure/ for more details
-#
-version: 2
+version: 2.1
 jobs:
-  build:
+  test:
     docker:
       - image: clojure:openjdk-11-lein-2.9.1
-    working_directory: ~/java-http-clj
+    working_directory: /home/circleci/owainlewis/java-http-clj
     environment:
       LEIN_ROOT: "true"
       JVM_OPTS: -Xmx3200m
@@ -27,7 +23,7 @@ jobs:
       # run tests!
       - run: lein with-profiles dev test
   deploy:
-    working_directory: ~/java-http-clj
+    working_directory: /home/circleci/owainlewis/java-http-clj
     docker:
       - image: clojure:openjdk-11-lein-2.9.1
     steps:
@@ -36,3 +32,15 @@ jobs:
       - run:
           name: Deploy to clojars
           command: lein deploy clojars
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - test
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
