@@ -48,8 +48,8 @@
    can be added to a URI"
   [m]
   (str/join "&"
-            (for [[k v] m]
-              (str (name k) "=" (java.net.URLEncoder/encode v)))))
+    (for [[k v] m]
+      (str (name k) "=" (java.net.URLEncoder/encode v)))))
 
 (defn build-uri [uri query-parameters]
   (if (nil? query-parameters)
@@ -123,7 +123,7 @@
 ;; Public API
 ;; ***************************************
 
-(defn send-request
+(defn request
   "Sends a HTTP request and blocks until a response is returned or the request
    takes longer than the specified `timeout`. If the request times out, a [HttpTimeoutException](https://docs.oracle.com/en/java/javase/11/docs/api/java.net.http/java/net/http/HttpTimeoutException.html) is thrown.
    The `req` parameter can be a either string URL, a request map, or a [java.net.http.HttpRequest](https://docs.oracle.com/en/java/javase/11/docs/api/java.net.http/java/net/http/HttpRequest.html).
@@ -144,24 +144,26 @@
    - `:client` - the [HttpClient](https://docs.oracle.com/en/java/javase/11/docs/api/java.net.http/java/net/http/HttpClient.html) to use for the request. If not provided the [[default-client]] will be used.
   - `:raw?` - if true, skip the Ring format conversion and return the [HttpResponse](https://docs.oracle.com/en/java/javase/11/docs/api/java.net.http/java/net/http/HttpResponse.html"
   ([req]
-   (send-request req {}))
+   (request req {}))
   ([req {:keys [as client raw?] :as opts}]
    (let [^HttpClient client (or client @default-client)
          req' (convert-request req)
          start (. System (nanoTime))
-         resp (.send client req' (convert-body-handler as))]
+         resp (if (= :json as)
+                (.send client req' (convert-body-handler :string))
+                (.send client req' (convert-body-handler as)))]
      (let [request-time-ms (/ (double (- (. System (nanoTime)) start)) NANOSECOND_MILLIS)]
        (with-meta
          (if raw? resp (response->map resp))
          {:request-time-ms request-time-ms})))))
 
-(defn send-request-async
+(defn async-request
   ([req]
-   (send-request-async req {} nil nil))
+   (async-request req {} nil nil))
   ([req opts]
-   (send-request-async req opts nil nil))
+   (async-request req opts nil nil))
   ([req opts callback]
-   (send-request-async req opts callback nil))
+   (async-request req opts callback nil))
   ([req {:keys [as client raw?]} callback ex-handler]
    (let [^HttpClient client (or client @default-client)
          req' (convert-request req)]
@@ -181,13 +183,13 @@
   `(defn ~(symbol (name method))
      ~(method-docstring method)
      (~['uri]
-      (send-request
+      (request
        ~{:uri 'uri :method method} {}))
      (~['uri 'req-map]
-      (send-request
+      (request
        (merge ~'req-map ~{:uri 'uri :method method}) {}))
      (~['uri 'req-map 'opts]
-      (send-request
+      (request
        (merge ~'req-map ~{:uri 'uri :method method}) ~'opts))))
 
 (defn- method-async-docstring
@@ -202,13 +204,13 @@
   `(defn ~(symbol (str "async-" (name method)))
      ~(method-async-docstring  method)
      (~['uri 'callback]
-      (send-request-async
+      (async-request
        ~{:uri 'uri :method method} {} ~'callback))
      (~['uri 'req-map 'callback]
-      (send-request-async
+      (async-request
        (merge ~'req-map ~{:uri 'uri :method method}) {} ~'callback))
      (~['uri 'req-map 'opts 'callback]
-      (send-request-async
+      (async-request
        (merge ~'req-map ~{:uri 'uri :method method}) ~'opts ~'callback))))
 
 (defmacro ^:private def-all-methods []
