@@ -8,4 +8,10 @@
   :profiles {:dev {:dependencies [[org.clojure/data.json "1.0.0"]]}}
   :source-paths ["src" "examples" "test"]
   :plugins [[lein-cljfmt "0.6.8"]]
+  :deploy-repositories 
+  [["clojars"
+    {:url           "https://clojars.org/repo"
+     :username      :env/clojars_username
+     :password      :env/clojars_password
+     :sign-releases false}]]
   :repl-options {:init-ns java-http-clj.core})
