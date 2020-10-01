@@ -17,6 +17,10 @@
            [java.util.function Function Supplier]
            [javax.net.ssl SSLContext SSLParameters]))
 
+(def ^:private http-methods [:get :head :post :put :delete])
+
+(defonce ^:private NANOSECOND_MILLIS 1000000.0)
+
 (defn- convert-body-publisher [body]
   (letfn [(input-stream-supplier [s]
             (reify Supplier
@@ -182,10 +186,6 @@
 ;; ***************************************
 ;; Sugar Methods
 ;; ***************************************
-
-(def ^:private http-methods [:get :head :post :put :delete])
-
-(defonce ^:private NANOSECOND_MILLIS 1000000.0)
 
 (defn- method-docstring
   "Generate the doc string for the sync auto generated helper methods"
