@@ -1,6 +1,6 @@
 # java-http-clj
 
-A Clojure HTTP client based on the Java 11 native HTTP client. This is a drop in replacement for clojure-http and http-kit.
+A Clojure HTTP client based on the [Java 11 HTTP client](https://docs.oracle.com/en/java/javase/11/docs/api/java.net.http/java/net/http/package-summary.html). This is a drop in replacement for clojure-http and http-kit.
 
 ## Getting started
 
