@@ -1,4 +1,4 @@
-(defproject com.owainlewis/java-http-clj "0.1.1"
+(defproject com.owainlewis/java-http-clj "0.2.0-SNAPSHOT"
   :description "Clojure HTTP client based on the Java 11+ HTTP client"
   :url "http://github.com/owainlewis/java-http-clj"
   :license {:name "MIT"
