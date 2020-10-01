@@ -31,6 +31,15 @@ You will need to import this library first
 
 ### Making Requests
 
+Raw requests are created as follows
+
+```clojure
+(http/request
+  {:method :get
+  :url "http://ip.jsontest.com/"}
+  {:as :json})
+```
+
 ### GET
 
 ```clojure
@@ -47,7 +56,7 @@ You will need to import this library first
 ### POST
 
 ```clojure
-(http/post "https://postman-echo.com/post" 
+(http/post "https://postman-echo.com/post"
   {:headers { "Content-Type" "application/json"}
    :body "Hello, World!"})
 ```
