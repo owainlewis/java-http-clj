@@ -129,7 +129,7 @@
    (https://docs.oracle.com/en/java/javase/11/docs/api/java.net.http/java/net/http/HttpTimeoutException.html) is thrown.
 
    The request map takes the following keys:
-   - `:method` - HTTP method as a keyword (e.g `:get`, `:put`, `:post`)
+   - `:method`  - HTTP method as a keyword (e.g `:get`, `:put`, `:post`)
    - `:url`     - the request url
    - `:headers` - HTTP headers as a map where keys are strings and values are strings or a list of strings
    - `:body`    - the request body. Can be a string, a primitive Java byte array or a java.io.InputStream.
