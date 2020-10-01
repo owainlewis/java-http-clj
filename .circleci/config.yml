@@ -17,11 +17,16 @@ jobs:
             - v1-dependencies-{{ checksum "project.clj" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-      - run: lein deps
+      - run: lein deps      
       - save_cache:
           paths:
-            - ~/.m2
+            - /home/circleci/.m2
           key: v1-dependencies-{{ checksum "project.clj" }}
+      - persist_to_workspace:
+          root: /home/circleci/
+          paths:
+            - .m2
+            - owainlewis/java-http-clj
       # run tests!
       - run: lein with-profiles dev test
   deploy:
@@ -31,7 +36,6 @@ jobs:
     steps:
       - attach_workspace:
           at: /home/circleci
-      - checkout
       - run:
           name: Deploy to clojars
           command: lein deploy clojars
