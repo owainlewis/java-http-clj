@@ -1,10 +1,11 @@
 # java-http-clj
 
-A zero dependency, JVM native HTTP client based on java.net.http.HttpClient.
+A zero dependency JVM native HTTP client based on java.net.http.HttpClient.
 
 ## Getting started
 
 [![Clojars Project](https://img.shields.io/clojars/v/com.owainlewis/java-http-clj.svg)](https://clojars.org/com.owainlewis/java-http-clj)
+
 [![CircleCI](https://circleci.com/gh/owainlewis/java-http-clj.svg?style=svg)](https://circleci.com/gh/owainlewis/java-http-clj)
 
 ## Intro
@@ -27,7 +28,7 @@ You will need to import this library first
 
 Requests work exactly as you'd expect.
 
-```
+```clojure
 ;; Make a simple request and return the HTTP status
 (-> (http/get "http://owainlewis.com") :status)
 
@@ -69,10 +70,6 @@ When using the async client, you can provide an optional callback and an optiona
   (fn [r] (println (:status r)))
   (fn [e] (println e)))
 ```
-
-## Advanced Usage
-
-Coming soon
 
 ## License
 
