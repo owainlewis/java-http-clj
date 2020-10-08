@@ -10,7 +10,8 @@ A zero dependency HTTP client built on java.net.http.HttpClient.
 
 ## Intro
 
-The [java.net.http.HttpClient](https://openjdk.java.net/groups/net/httpclient/intro.html) was added in Java 11. It can be used to request HTTP resources over the network.
+The [java.net.http.HttpClient](https://docs.oracle.com/en/java/javase/11/docs/api/java.net.http/java/net/http/package-summary.html) was added in Java 11. It can be used to request HTTP resources over the network.
+
 It supports both HTTP/1.1 and HTTP/2, synchronous and asynchronous programming models, handles request and response bodies as reactive-streams, and follows the familiar builder pattern.
 
 This library exposes the native java HTTP client via Clojure and supports both sync and async requests.
