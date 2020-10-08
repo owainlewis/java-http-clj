@@ -1,6 +1,6 @@
 # java-http-clj
 
-A zero dependency HTTP client built on java.net.http.HttpClient.
+A zero dependency HTTP library built on java.net.http.HttpClient.
 
 ## Getting started
 
