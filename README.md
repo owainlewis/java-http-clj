@@ -20,6 +20,12 @@ This library exposes the native java HTTP client via Clojure and supports both s
 
 In order to use this library you will need to be running Java 11+. 
 
+Add the library to your project:
+
+```
+[com.owainlewis/java-http-clj "0.3.0"]
+```
+
 You can import the library into your projects as follows:
 
 ```clojure
