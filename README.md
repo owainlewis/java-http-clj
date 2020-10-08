@@ -15,9 +15,11 @@ It supports both HTTP/1.1 and HTTP/2, synchronous and asynchronous programming m
 
 This library exposes the native java HTTP client via Clojure and supports both sync and async requests.
 
-**This library requires Java 11+**
+## Getting started
 
-You will need to import this library first
+In order to use this library you will need to be running Java 11+. 
+
+You can import the library into your projects as follows:
 
 ```clojure
 (ns myns
