@@ -1,6 +1,6 @@
 # java-http-clj
 
-A zero dependency JVM native HTTP client based on java.net.http.HttpClient.
+A zero dependency HTTP client built on java.net.http.HttpClient.
 
 ## Getting started
 
