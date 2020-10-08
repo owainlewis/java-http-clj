@@ -1,24 +1,18 @@
 # java-http-clj
 
-A Clojure HTTP client based on the [Java 11 HTTP client](https://docs.oracle.com/en/java/javase/11/docs/api/java.net.http/java/net/http/package-summary.html). This is a drop in replacement for clojure-http and http-kit.
+A zero dependency, JVM native HTTP client based on java.net.http.HttpClient.
 
 ## Getting started
 
 [![Clojars Project](https://img.shields.io/clojars/v/com.owainlewis/java-http-clj.svg)](https://clojars.org/com.owainlewis/java-http-clj)
-
 [![CircleCI](https://circleci.com/gh/owainlewis/java-http-clj.svg?style=svg)](https://circleci.com/gh/owainlewis/java-http-clj)
-
-## Testing
-
-``` clojure
-lein with-profiles dev test
-```
 
 ## Intro
 
-The [HTTP Client](https://openjdk.java.net/groups/net/httpclient/intro.html) was added in Java 11. It can be used to request HTTP resources over the network. It supports HTTP/1.1 and HTTP/2, both synchronous and asynchronous programming models, handles request and response bodies as reactive-streams, and follows the familiar builder pattern.
+The [java.net.http.HttpClient](https://openjdk.java.net/groups/net/httpclient/intro.html) was added in Java 11. It can be used to request HTTP resources over the network.
+It supports both HTTP/1.1 and HTTP/2, synchronous and asynchronous programming models, handles request and response bodies as reactive-streams, and follows the familiar builder pattern.
 
-This library exposes this Java client via Clojure and supports both sync and async requests. It can be used as a light weight, drop-in replacement for http-kit and clojure-http.
+This library exposes the native java HTTP client via Clojure and supports both sync and async requests.
 
 **This library requires Java 11+**
 
@@ -29,36 +23,26 @@ You will need to import this library first
   (:require [java-http-clj.core :as http]))
 ```
 
-### Making Requests
+## Basic Usage
 
-Raw requests are created as follows
+Requests work exactly as you'd expect.
 
-```clojure
-(http/request
-  {:method :get
-  :url "http://ip.jsontest.com/"}
-  {:as :json})
 ```
+;; Make a simple request and return the HTTP status
+(-> (http/get "http://owainlewis.com") :status)
 
-### GET
-
-```clojure
-;; If you don't specify any options defaults are used
-(http/get "http://www.google.com")
-
-;; With request options
+;; Passing in other request options
 (http/get "https://www.google.com"
   {:headers {"Accept" "application/json" "Accept-Encoding" ["gzip" "deflate"]}
    :timeout 2000})
 ```
 
+Alternatively you can construct a `raw` request yourself.
 
-### POST
+Raw requests are created as follows
 
 ```clojure
-(http/post "https://postman-echo.com/post"
-  {:headers { "Content-Type" "application/json"}
-   :body "Hello, World!"})
+(http/request {:method :get :url "http://ip.jsontest.com/"})
 ```
 
 ### Query Parameters
@@ -72,7 +56,8 @@ You can add query parameters to your request using the following form:
 ### Async Requests
 
 There are async implementations of all core HTTP methods.
-When using the Async client, you can provide an optional callback and an optional error handler.
+
+When using the async client, you can provide an optional callback and an optional error handler.
 
 ```clojure
 ;; With callback
@@ -84,6 +69,10 @@ When using the Async client, you can provide an optional callback and an optiona
   (fn [r] (println (:status r)))
   (fn [e] (println e)))
 ```
+
+## Advanced Usage
+
+Coming soon
 
 ## License
 

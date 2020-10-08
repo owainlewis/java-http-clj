@@ -1,7 +1,6 @@
 (ns java-http-clj.core
   (:refer-clojure :exclude [get])
   (:require [clojure.string :as str]
-            [cheshire.core :as json]
             [java-http-clj.client :refer [default-client]]
             [java-http-clj.util :refer [convert-timeout convert-version version->sym]])
   (:import [java.net URI]
@@ -153,18 +152,12 @@
    (let [^HttpClient client (or client @default-client)
          req' (convert-request req)
          start (. System (nanoTime))
-         resp (if (= :json as)
-                (.send client req' (convert-body-handler :string))
-                (.send client req' (convert-body-handler as)))]
+         resp (.send client req' (convert-body-handler as))]
      (let [request-time-ms (/ (double (- (. System (nanoTime)) start)) NANOSECOND_MILLIS)]
-       (if raw?
-         resp
+       (if raw? resp
          (with-meta
-           (let [response-map (response->map resp)]
-             (if (= :json as)
-               (update-in response-map [:body] json/parse-string)
-               response-map))
-            {:request-time-ms request-time-ms}))))))
+           (response->map resp)
+           {:request-time-ms request-time-ms}))))))
 
 (defn async-request
   ([req]
