@@ -17,10 +17,6 @@
            [java.util.function Function Supplier]
            [javax.net.ssl SSLContext SSLParameters]))
 
-(def ^:private http-methods [:get :head :post :put :delete])
-
-(defonce ^:private NANOSECOND_MILLIS 1000000.0)
-
 (defn- convert-body-publisher [body]
   (letfn [(input-stream-supplier [s]
             (reify Supplier
@@ -126,6 +122,8 @@
 ;; Public API
 ;; ***************************************
 
+(defonce ^:private NANOSECOND_MILLIS 1000000.0)
+
 (defn request
   "Sends a HTTP request and blocks until a response is returned or the request
    takes longer than the specified `timeout`.
@@ -183,57 +181,72 @@
        callback    (.thenApply (fn->java-function callback))
        ex-handler  (.exceptionally (fn->java-function ex-handler))))))
 
-;; ***************************************
-;; Sugar Methods
-;; ***************************************
+(defn get
+  "Like #'request, but sets the :method and :url as appropriate."
+  [url & [req opts]]
+  (request (merge req {:method :get :url url}) (or opts {})))
 
-(defn- method-docstring
-  "Generate the doc string for the sync auto generated helper methods"
-  [method]
-  (str "Sends a synchronous "
-       (str/upper-case (name method)) " request to `uri`.
-     See [[send]] for a description of `req-map` and `opts`."))
+(defn put
+  "Like #'request, but sets the :method and :url as appropriate."
+  [url & [req opts]]
+  (request (merge req {:method :put :url url}) (or opts {})))
 
-(defn- define-method [method]
-  `(defn ~(symbol (name method))
-     ~(method-docstring method)
-     (~['url]
-      (request
-       ~{:url 'url :method method} {}))
-     (~['url 'req-map]
-      (request
-       (merge ~'req-map ~{:url 'url :method method}) {}))
-     (~['url 'req-map 'opts]
-      (request
-       (merge ~'req-map ~{:url 'url :method method}) ~'opts))))
+(defn patch
+  "Like #'request, but sets the :method and :url as appropriate."
+  [url & [req opts]]
+  (request (merge req {:method :patch :url url}) (or opts {})))
 
-(defn- method-async-docstring
-  "Generate the doc string for the async auto generated helper methods"
-  [method]
-  (str "Sends an asynchronous "
-       (str/upper-case (name method))
-       " request to `uri`."))
+(defn post
+  "Like #'request, but sets the :method and :url as appropriate."
+  [url & [req opts]]
+  (request (merge req {:method :post :url url}) (or opts {})))
 
-(defn- define-method-async
-  "Build shorthand methods for async requests"
-  [method]
-  `(defn ~(symbol (str "async-" (name method)))
-     ~(method-async-docstring  method)
-     (~['url 'callback]
-      (async-request
-       ~{:url 'url :method method} {} ~'callback))
-     (~['url 'req-map 'callback]
-      (async-request
-       (merge ~'req-map ~{:url 'url :method method}) {} ~'callback))
-     (~['url 'req-map 'opts 'callback]
-      (async-request
-       (merge ~'req-map ~{:url 'url :method method}) ~'opts ~'callback))))
+(defn delete
+  "Like #'request, but sets the :method and :url as appropriate."
+  [url & [req opts]]
+  (request (merge req {:method :delete :url url}) (or opts {})))
 
-(defmacro ^:private def-all-methods []
-  `(do ~@(map define-method http-methods)))
+(defn head
+  "Like #'request, but sets the :method and :url as appropriate."
+  [url & [req opts]]
+  (request (merge req {:method :head :url url}) (or opts {})))
 
-(defmacro ^:private def-all-async-methods []
-  `(do ~@(map define-method-async http-methods)))
+(defn options
+  "Like #'request, but sets the :method and :url as appropriate."
+  [url & [req opts]]
+  (request (merge req {:method :options :url url}) (or opts {})))
 
-(def-all-methods)
-(def-all-async-methods)
+(defn get-async
+  "Like #'async-request, but sets the :method and :url as appropriate."
+  [url & [req opts callback exception-handler]]
+  (async-request (merge req {:method :get :url url}) (or opts {}) callback exception-handler))
+
+(defn put-async
+  "Like #'async-request, but sets the :method and :url as appropriate."
+  [url & [req opts callback exception-handler]]
+  (async-request (merge req {:method :put :url url}) (or opts {}) callback exception-handler))
+
+(defn patch-async
+  "Like #'async-request, but sets the :method and :url as appropriate."
+  [url & [req opts callback exception-handler]]
+  (async-request (merge req {:method :patch :url url}) (or opts {}) callback exception-handler))
+
+(defn post-async
+  "Like #'async-request, but sets the :method and :url as appropriate."
+  [url & [req opts callback exception-handler]]
+  (async-request (merge req {:method :post :url url}) (or opts {}) callback exception-handler))
+
+(defn delete-async
+  "Like #'async-request, but sets the :method and :url as appropriate."
+  [url & [req opts callback exception-handler]]
+  (async-request (merge req {:method :delete :url url}) (or opts {}) callback exception-handler))
+
+(defn head-async
+  "Like #'async-request, but sets the :method and :url as appropriate."
+  [url & [req opts callback exception-handler]]
+  (async-request (merge req {:method :head :url url}) (or opts {}) callback exception-handler))
+
+(defn options-async
+  "Like #'async-request, but sets the :method and :url as appropriate."
+  [url & [req opts callback exception-handler]]
+  (async-request (merge req {:method :options :url url}) (or opts {}) callback exception-handler))
