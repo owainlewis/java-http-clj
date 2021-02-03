@@ -6,7 +6,7 @@
   :dependencies [[org.clojure/clojure "1.10.0"]]
   :profiles {:dev {:dependencies [[org.clojure/data.json "1.0.0"]]}}
   :source-paths ["src" "examples" "test"]
-  :plugins [[lein-cljfmt "0.6.8"]]
+  :plugins [[lein-cljfmt "0.7.0"]]
   :deploy-repositories
   [["clojars"
     {:url "https://repo.clojars.org"

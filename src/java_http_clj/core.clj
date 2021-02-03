@@ -43,8 +43,8 @@
    can be added to a URI"
   [m]
   (str/join "&"
-    (for [[k v] m]
-      (str (name k) "=" (java.net.URLEncoder/encode v)))))
+            (for [[k v] m]
+              (str (name k) "=" (java.net.URLEncoder/encode v)))))
 
 (defn build-uri [uri query-parameters]
   (if (nil? query-parameters)
@@ -84,11 +84,11 @@
      :body (.body resp)
      :version (-> resp .version version-string->version-keyword)
      :headers (into {}
-                (map
-                  (fn [[k v]]
-                    [k (if (> (count v) 1)
-                           (vec v)
-                           (first v))]))
+                    (map
+                     (fn [[k v]]
+                       [k (if (> (count v) 1)
+                            (vec v)
+                            (first v))]))
                     (.map (.headers resp)))}))
 
 (defmacro fn->java-function
@@ -102,11 +102,11 @@
   [req]
   (cond
     (map? req)
-      (build-request req)
+    (build-request req)
     (string? req)
-      (build-request {:url req})
+    (build-request {:url req})
     (instance? HttpRequest req)
-      req))
+    req))
 
 (defn- convert-body-handler
   "Maps a clojure body handler keyword to a Java form"
@@ -155,9 +155,9 @@
          resp (.send client req' (convert-body-handler as))]
      (let [request-time-ms (/ (double (- (. System (nanoTime)) start)) NANOSECOND_MILLIS)]
        (if raw? resp
-         (with-meta
-           (response->map resp)
-           {:request-time-ms request-time-ms}))))))
+           (with-meta
+             (response->map resp)
+             {:request-time-ms request-time-ms}))))))
 
 (defn async-request
   ([req]
