@@ -1,4 +1,5 @@
 (ns java-http-clj.client
+  "HTTP client functionality wrapping Java 11+ HttpClient."
   (:refer-clojure :exclude [get])
   (:require [clojure.string :as str]
             [java-http-clj.util :as util])
@@ -11,6 +12,18 @@
            [java.time Duration]))
 
 (defn client-builder
+  "Creates a new HttpClient builder with optional configuration.
+   
+   Options:
+   - :connect-timeout - Connection timeout in milliseconds or Duration
+   - :cookie-handler - CookieHandler instance
+   - :executor - Executor for async requests
+   - :follow-redirects - Redirect policy (:always, :never, :normal)
+   - :priority - Request priority
+   - :proxy - ProxySelector instance
+   - :ssl-context - SSLContext instance
+   - :ssl-parameters - SSLParameters instance
+   - :version - HTTP version (:http1.1, :http2)"
   (^HttpClient$Builder []
    (client-builder {}))
   (^HttpClient$Builder [opts]
@@ -18,7 +31,8 @@
              (case redirect
                :always HttpClient$Redirect/ALWAYS
                :never HttpClient$Redirect/NEVER
-               :normal HttpClient$Redirect/NORMAL))]
+               :normal HttpClient$Redirect/NORMAL
+               HttpClient$Redirect/NORMAL))]
      (let [{:keys [connect-timeout
                    cookie-handler
                    executor
@@ -40,8 +54,29 @@
          version          (.version (util/convert-version version)))))))
 
 (defn build-client
-  ([] (.build (client-builder)))
-  ([opts] (.build (client-builder opts))))
+  "Builds and returns a configured HttpClient instance.
+   
+   With no arguments, returns a default client.
+   With options map, configures the client according to the options.
+   See client-builder for available options."
+  (^HttpClient [] (.build (client-builder)))
+  (^HttpClient [opts] (.build (client-builder opts))))
 
 (def ^HttpClient default-client
+  "Default HttpClient instance for use when no custom configuration is needed."
   (delay (HttpClient/newHttpClient)))
+
+(defn client-with-timeout
+  "Creates a new HttpClient with the specified timeout in milliseconds."
+  ^HttpClient [timeout-ms]
+  (build-client {:connect-timeout timeout-ms}))
+
+(defn client-with-version
+  "Creates a new HttpClient with the specified HTTP version (:http1.1 or :http2)."
+  ^HttpClient [version]
+  (build-client {:version version}))
+
+(defn client-with-redirect-policy
+  "Creates a new HttpClient with the specified redirect policy (:always, :never, :normal)."
+  ^HttpClient [redirect-policy]
+  (build-client {:follow-redirects redirect-policy}))

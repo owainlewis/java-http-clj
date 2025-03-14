@@ -3,8 +3,11 @@
   :url "http://github.com/owainlewis/java-http-clj"
   :license {:name "MIT"
             :url "https://opensource.org/licenses/MIT"}
-  :dependencies [[org.clojure/clojure "1.10.0"]]
-  :profiles {:dev {:dependencies [[org.clojure/data.json "1.0.0"]]}}
+  :dependencies [[org.clojure/clojure "1.11.1"]]
+  :javac-options ["-source" "11" "-target" "11"]
+  :min-lein-version "2.9.0"
+  :profiles {:dev {:dependencies [[org.clojure/data.json "2.4.0"]]
+                   :plugins [[lein-codox "0.10.8"]]}}
   :source-paths ["src" "examples" "test"]
   :plugins [[lein-cljfmt "0.7.0"]]
   :deploy-repositories
